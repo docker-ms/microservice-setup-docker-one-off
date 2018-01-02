@@ -27,16 +27,14 @@
     - [Issue #4978](https://github.com/elastic/elasticsearch/issues/4978#issuecomment-258676104)
     - [Elasticsearch virtual memory](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html)
 
-```
-#!bash
+```bash
   # So put the below line in the file /etc/sysctl.conf
   vm.max_map_count = 262144
 ```
 
 ## Construct RabbitMQ cluster manually
 
-```
-#!bash
+```bash
   docker run -it --rm \
     --network=gate_services_stack \
     --link 24dcc271c547 \
@@ -60,8 +58,7 @@
 
   - RabbitMQ cluster with the below 2 policies:
 
-```
-#!json
+```json
 
       {
         "name": "ha-gate-mq-*",
@@ -88,8 +85,7 @@
 
 ## Generate user and password for registry
 
-```
-#!bash
+```bash
     mkdir auth
     docker run --entrypoint htpasswd registry:2 -Bbn leonard 1234567890 > auth/htpasswd
 ```
@@ -98,8 +94,7 @@
 
 - How to remove one tag:
 
-```
-#!bash
+```bash
 
       # Get tags list.
       curl -u leonard:1234567890 -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' https://micro02.sgdev.vcube.com:65300/v2/auth_dev_leonard_0.0.1/tags/list
@@ -125,8 +120,7 @@
 
 - Generate dkim
 
-```
-#!bash
+```bash
       apt-get install opendkim-tools
 
       opendkim-genkey -s mail -d {domain name you will use for the email server}
@@ -138,8 +132,7 @@
 
 -  Verify your email server works properly with `telnet`
 
-```
-#!bash
+```bash
       echo -ne '\0support\0L6b8c38fb30664cdb25382d201893c1f' | openssl enc -base64
       # AHN1cHBvcnQATDZiOGMzOGZiMzA2NjRjZGIyNTM4MmQyMDE4OTNjMWY=
 
@@ -173,8 +166,7 @@
 
 - Basically to say, the image tag should follow this format: `protobuf service name` **-** `dev/stg/prd` **-** `owner` **-** `target cpu cores` **:** `version`
 
-```
-#!bash
+```bash
       # Build your image.
       docker build \
         --no-cache=true \
@@ -210,8 +202,7 @@
 
 ## Build fluentd image with elastic-search plugin
 
-```
-#!bash
+```bash
   docker build \
     --no-cache=true \
     --pull=true \
@@ -234,8 +225,7 @@
 
 ## Set up your localhost testing environment.
 
-```
-#!bash
+```bash
 
   # Install Docker CE.
   https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac
