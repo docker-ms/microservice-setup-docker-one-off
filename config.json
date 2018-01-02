@@ -1,0 +1,148 @@
+{
+
+  "__remarks": {
+    "0": "Sections which prefix with '__' just provide some auxiliary info for helping you to understand the design, not real configurations."
+  },
+
+  "__portsDeclarations": {
+    "consul": "65400->65499",
+    "registries": "65300->65399",
+    "rabbitmq": {
+      "insecure": "65200->65299",
+      "secure": "65100->65199"
+    },
+    "email": "65000->65099",
+    "fluentdStack": "64900->64999",
+    "zipkinStack": "64800->64899",
+    "ciDroneIOStack": "64700->64799"
+  },
+
+  "consulHealthCheckOpts": {
+    "ttl": "30s",
+    "timeout": "1s",
+    "interval": "25s",
+    "deregisterAfter": "2m"
+  },
+
+  "registries": {
+    "__notes": {
+      "0": "Before set up the docker engine, the registries info must be finalized first.",
+      "1": "I mean how many registries we want to run, the corresponding domain names and TLS certs.",
+      "2": "Coz the most flexible way is just let all the docker engines know all the registries.",
+      "3": "Each registry has its own `--engine-insecure-registry` option in the `docker-machine create` command.",
+      "4": "So for simplifying the shell script, adding new registry pls also add the `--engine-insecure-registry` option there manually."
+    },
+
+    "dev": {
+      "hostname": "micro02.sgdev.vcube.com",
+      "port": 65300
+    },
+
+    "stg": {
+      "hostname": "",
+      "port": 65301
+    },
+
+    "prd": {
+      "0": {
+        "hostname": "",
+        "port": 65302
+      },
+      "1": {
+        "hostname": "",
+        "port": 65303
+      }
+    }
+  },
+
+  "machines": [
+    {
+      "__notes": {
+        "0": "First machine must be a swarm manager."
+      },
+
+      "hostname": "micro01.sgdev.vcube.com",
+      "ip": "10.0.3.159",
+      "asSwarmManager": true,
+      "asConsulServerAgent": true,
+      "asConsulClientAgent": true,
+      "asElasticsearchServer": true,
+      "asRabbitMQServer": {
+        "rabbitmqNodeType": "disc"
+      },
+      "asEmailServer": {
+        "domainName": "microservices.vcube.sg",
+        "users": [
+          "support:L6b8c38fb30664cdb25382d201893c1f"
+        ]
+      },
+      "labels": {
+        "__notes": {
+          "0": "Each label has its own `--engine-label` option in the `docker-machine create` command.",
+          "1": "So for simplifying the shell script, adding new label pls also add the `--engine-label` option there manually"
+        },
+
+        "instanceType": "t2.micro"
+      },
+      "domainNames": [
+        "microservices.vcube.sg"
+      ]
+    }, {
+      "hostname": "micro02.sgdev.vcube.com",
+      "ip": "10.0.3.160",
+      "asSwarmManager": true,
+      "asZipkinServer": true,
+      "asGrafanaServer": true,
+      "asFluentdServer": true,
+      "asCIDroneIOServer": true,
+      "asConsulServerAgent": true,
+      "asConsulClientAgent": true,
+      "asElasticsearchServer": true,
+      "asRabbitMQServer": {
+        "rabbitmqNodeType": "disc"
+      },
+      "labels": {
+        "__notes": {
+          "0": "Each label has its own `--engine-label` option in the `docker-machine create` command.",
+          "1": "So for simplifying the shell script, adding new label pls also add the `--engine-label` option there manually"
+        },
+
+        "instanceType": "t2.micro"
+      }
+    }, {
+      "hostname": "micro03.sgdev.vcube.com",
+      "ip": "10.0.3.161",
+      "asSwarmManager": false,
+      "asConsulServerAgent": true,
+      "asConsulClientAgent": true,
+      "asElasticsearchServer": true,
+      "asElasticsearchCoordinatorServer": true,
+      "asRabbitMQServer": {
+        "rabbitmqNodeType": "ram"
+      },
+      "labels": {
+        "__notes": {
+          "0": "Each label has its own `--engine-label` option in the `docker-machine create` command.",
+          "1": "So for simplifying the shell script, adding new label pls also add the `--engine-label` option there manually"
+        },
+
+        "instanceType": "t2.micro"
+      }
+    }
+  ],
+
+  "remoteProvisioner": {
+    "user": "leonard",
+    "homeDir": "/home/leonard/",
+    "path2RSAKey": "/Users/leonard/.ssh/id_rsa"
+  },
+
+  "subnets": {
+    "ingress": "172.31.0.0/16",
+    "management": "172.30.0.0/16",
+    "gateServicesStack": "172.29.0.0/16"
+  }
+
+}
+
+

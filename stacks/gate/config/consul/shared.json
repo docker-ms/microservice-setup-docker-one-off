@@ -1,0 +1,23 @@
+{
+  "datacenter": "dc0",
+
+  "log_level": "debug",
+  "enable_syslog": false,
+
+  "encrypt": "X4SYOinf2pTAcAHRhpj7dA==",
+  
+  "client_addr": "0.0.0.0",
+
+  "ports": {
+    "dns": 65400,
+    "http": 65401,
+    "https": -1,
+    "server": 65403,
+    "serf_lan": 65404,
+    "serf_wan": 65405
+  },
+
+  "retry_join": ["consul_agent_server_0", "consul_agent_server_1", "consul_agent_server_2"]
+}
+
+

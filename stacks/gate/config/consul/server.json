@@ -1,0 +1,9 @@
+{
+  "server": true,
+  "bootstrap_expect": 3,
+  "performance": {
+    "raft_multiplier": 3
+  }
+}
+
+

@@ -1,0 +1,235 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: gate_services_stack
+
+services:
+
+  ms-util-1:
+    image: ${REGISTRY}/util-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: util-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: util-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-chat-1:
+    image: ${REGISTRY}/chat-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: chat-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: chat-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-users-1:
+    image: ${REGISTRY}/users-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: users-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: users-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-groups-1:
+    image: ${REGISTRY}/groups-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: groups-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: groups-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-auth-jwt-1:
+    image: ${REGISTRY}/auth-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: auth-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: auth-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-companies-1:
+    image: ${REGISTRY}/companies-${SERVICE_TAG_SUFFIX_1}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: companies-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: companies-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  ms-ws:
+    image: ${REGISTRY}/ws-${SERVICE_TAG_SUFFIX}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: ws-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: ws-${SERVICE_TAG_SUFFIX}
+      SERVICE_TAG_SUFFIX: ${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+    depends_on:
+      - ms-chat-1
+
+  ms-lsync:
+    image: ${REGISTRY}/lsync-${SERVICE_TAG_SUFFIX}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: lsync-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: lsync-${SERVICE_TAG_SUFFIX}
+      # Health check.
+      SERVICE_CHECK_TTL: ${CONSUL_HEALTH_CHECK_OPTS_TTL}
+      SERVICE_CHECK_SCRIPT: 'nc -vz $${DOLLAR}SERVICE_IP $${DOLLAR}SERVICE_PORT; exit $$(($$? == 0 ? 0 : 500))'
+      SERVICE_CHECK_TIMEOUT: ${CONSUL_HEALTH_CHECK_OPTS_TIMEOUT}
+      SERVICE_CHECK_INTERVAL: ${CONSUL_HEALTH_CHECK_OPTS_INTERVAL}
+      SERVICE_CHECK_DEREGISTER_AFTER: ${CONSUL_HEALTH_CHECK_OPTS_DEREGISTER_AFTER}
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: any
+    depends_on:
+      - ms-chat-1
+
+  ms-gateway:
+    image: ${REGISTRY}/gateway-${SERVICE_TAG_SUFFIX}
+    environment:
+      RUN_MODE: ${RUN_MODE}
+      SERVICE_NAME: gateway-${SERVICE_TAG_SUFFIX}
+      MS_SERVICE_TAG: gateway-${SERVICE_TAG_SUFFIX}
+      SERVICE_TAG_SUFFIX: ${SERVICE_TAG_SUFFIX}
+    ports:
+      - '53547:53547'
+    networks:
+      - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: tcp://micro02.sgdev.vcube.com:64900
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          # We temporarily need this.
+          - node.hostname != micro03.sgdev.vcube.com
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+    depends_on:
+      - ms-lsync
+      - ms-util-1
+      - ms-chat-1
+      - ms-users-1
+      - ms-groups-1
+      - ms-auth-jwt-1
+      - ms-companies-1
+
+

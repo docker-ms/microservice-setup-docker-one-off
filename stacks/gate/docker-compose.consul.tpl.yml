@@ -1,0 +1,124 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: gate_services_stack
+
+services:
+
+  consul_agent_server_0:
+    image: consul:0.8.5
+    hostname: consul_agent_server_0
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_SERVER}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-node-id=0b046b42-bb77-449f-816f-cecfd1c2adae', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_SERVER_0_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  consul_agent_server_1:
+    image: consul:0.8.5
+    hostname: consul_agent_server_1
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_SERVER}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-node-id=1d4d4ae5-9012-4549-9b16-be0c7a160940', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_SERVER_1_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  consul_agent_server_2:
+    image: consul:0.8.5
+    hostname: consul_agent_server_2
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_SERVER}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-node-id=2f277ba2-bbd6-4d2d-b9da-8a53d37d5d42', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_SERVER_2_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  consul_agent_client_0:
+    image: consul:0.8.5
+    hostname: consul_agent_client_0
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_CLIENT}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-ui', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    ports:
+      - '65499:65401'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_CLIENT_0_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  consul_agent_client_1:
+    image: consul:0.8.5
+    hostname: consul_agent_client_1
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_CLIENT}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-ui', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    ports:
+      - '65498:65401'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_CLIENT_1_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  consul_agent_client_2:
+    image: consul:0.8.5
+    hostname: consul_agent_client_2
+    environment:
+      CONSUL_LOCAL_CONFIG: ${CONSUL_LOCAL_CONFIG_CLIENT}
+      SERVICE_IGNORE: 'true'
+    command: ['agent', '-ui', '-bind={{ GetInterfaceIP "eth0" }}']
+    networks:
+      - default
+    ports:
+      - '65497:65401'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${CONSUL_AGENT_CLIENT_2_HOSTNAME}
+      restart_policy:
+        condition: any
+
+

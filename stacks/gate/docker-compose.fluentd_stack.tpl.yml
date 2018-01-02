@@ -1,0 +1,196 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: gate_services_stack
+
+services:
+
+  elasticsearch-server-0:
+    image: elasticsearch:5.5.0-alpine
+    hostname: elasticsearch-server-0
+    volumes:
+      - type: bind
+        source: ${REMOTE_PROVISIONER_USER_HOME_DIR}docker_setup_elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      SERVICE_IGNORE: 'true'
+
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
+    ports:
+      - target: 9200
+        published: 9200
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 512M
+      placement:
+        constraints:
+          - node.hostname == ${ELASTICSEARCH_SERVER_0_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  elasticsearch-server-1:
+    image: elasticsearch:5.5.0-alpine
+    hostname: elasticsearch-server-1
+    volumes:
+      - type: bind
+        source: ${REMOTE_PROVISIONER_USER_HOME_DIR}docker_setup_elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      SERVICE_IGNORE: 'true'
+      
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
+    ports:
+      - target: 9200
+        published: 9200
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 512M
+      placement:
+        constraints:
+          - node.hostname == ${ELASTICSEARCH_SERVER_1_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  elasticsearch-server-2:
+    image: elasticsearch:5.5.0-alpine
+    hostname: elasticsearch-server-2
+    volumes:
+      - type: bind
+        source: ${REMOTE_PROVISIONER_USER_HOME_DIR}docker_setup_elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      SERVICE_IGNORE: 'true'
+      
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
+    ports:
+      - target: 9200
+        published: 9200
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 512M
+      placement:
+        constraints:
+          - node.hostname == ${ELASTICSEARCH_SERVER_2_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  elasticsearch-coordinator-server-0:
+    image: elasticsearch:5.5.0-alpine
+    hostname: elasticsearch-coordinator-server-0
+    volumes:
+      - type: bind
+        source: ${REMOTE_PROVISIONER_USER_HOME_DIR}docker_setup_elasticsearch/elasticsearch.coordinator.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      SERVICE_IGNORE: 'true'
+      
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 512M
+      placement:
+        constraints:
+          - node.hostname == ${ELASTICSEARCH_COORDINATOR_SERVER_0_CORRD_PHY_MACHINE_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  fluentd-server-0:
+    image: ${REGISTRY}/fluentd-ms-leonard
+    hostname: fluentd-server-0
+    volumes:
+      - type: bind
+        source: ${REMOTE_PROVISIONER_USER_HOME_DIR}docker_setup_fluentd
+        target: /fluentd/etc
+    environment:
+      SERVICE_5140_IGNORE: 'true'
+      SERVICE_24224_IGNORE: 'true'
+
+      FLUENTD_CONF: fluentd.conf
+    networks:
+      - default
+    ports:
+      - '64900:64900'
+      - '64901:64901'
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 384M
+      placement:
+        constraints:
+          - node.hostname == ${FLUENTD_SERVER_0_CORRD_PHY_MACHINE_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  grafana-server-0:
+    image: grafana/grafana:4.4.1
+    hostname: grafana-server-0
+    environment:
+      SERVICE_NAME: 'grafana@${GRAFANA_SERVER_0_CORRD_PHY_MACHINE_HOSTNAME}:64999'
+
+      GF_SECURITY_ADMIN_PASSWORD: 1234567890
+    networks:
+      - default
+    ports:
+      - '64999:3000'
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 384M
+      placement:
+        constraints:
+          - node.hostname == ${GRAFANA_SERVER_0_CORRD_PHY_MACHINE_HOSTNAME}
+      restart_policy:
+        condition: any
+
+

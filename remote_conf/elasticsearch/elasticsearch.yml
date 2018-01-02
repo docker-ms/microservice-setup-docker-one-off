@@ -1,0 +1,12 @@
+cluster.name: elasticsearch_cluster
+bootstrap.memory_lock: false
+
+network.host: 0.0.0.0
+network.publish_host: _eth0_
+
+discovery.zen.minimum_master_nodes: 2
+discovery.zen.ping.unicast.hosts: ['elasticsearch-server-0', 'elasticsearch-server-1', 'elasticsearch-server-2']
+
+indices.fielddata.cache.size: 20%
+
+

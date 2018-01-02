@@ -1,0 +1,2 @@
+mail._domainkey IN  TXT ( "v=DKIM1; k=rsa; "
+    "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/VsixOTwHpolx3T4tsExXgCzwks9Iqw0Z535NQlC6MHuVlBn7xvSn3BnBnPTyemAZt4ypoAHqG/CwRRKbIcpJUUwx5sMRNU84QiD0YWRb2R2rjzB2AwYFGKUxG0ScMn4U0EWZcIUixDZvMZSKFBqZSA6TEkUkJ0sflvIyrjzuBwIDAQAB" )  ; ----- DKIM key mail for microservices.vcube.sg
