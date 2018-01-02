@@ -34,6 +34,8 @@
 
 ## Construct RabbitMQ cluster manually
 
+  - Connect to specific container
+
     ```bash
     docker run -it --rm \
       --network=gate_services_stack \
@@ -58,32 +60,33 @@
 
   - RabbitMQ cluster with the below 2 policies:
 
-  ```json
-  {
-    "name": "ha-gate-mq-*",
-    "priority": 999,
-    "pattern": "^gate-mq-",
-    "definition": {
-      "ha-mode": "exactly",
-      "ha-params": 2,
-      "ha-sync-mode": "automatic"
+    ```json
+    {
+      "name": "ha-gate-mq-*",
+      "priority": 999,
+      "pattern": "^gate-mq-",
+      "definition": {
+        "ha-mode": "exactly",
+        "ha-params": 2,
+        "ha-sync-mode": "automatic"
+      }
     }
-  }
 
-  {
-    "name": "ha-gate-ex-*",
-    "priority": 999,
-    "pattern": "^gate-ex-",
-    "definition": {
-      "ha-mode": "exactly",
-      "ha-params": 2,
-      "ha-sync-mode": "automatic"
+    {
+      "name": "ha-gate-ex-*",
+      "priority": 999,
+      "pattern": "^gate-ex-",
+      "definition": {
+        "ha-mode": "exactly",
+        "ha-params": 2,
+        "ha-sync-mode": "automatic"
+      }
     }
-  }
-  ```
+    ```
 
 ## Generate user and password for registry
 
+- 
     ```bash
     mkdir auth
     docker run --entrypoint htpasswd registry:2 -Bbn leonard 1234567890 > auth/htpasswd
@@ -200,6 +203,7 @@
 
 ## Build fluentd image with elastic-search plugin
 
+-
     ```bash
     docker build \
       --no-cache=true \
@@ -223,8 +227,8 @@
 
 ## Set up your localhost testing environment.
 
+-
     ```bash
-
     # Install Docker CE.
     https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac
 
@@ -256,7 +260,6 @@
     ## -w to specify the owner of this env.
     #
     source run.sh -n -w leonard
-
     ```
 
 
